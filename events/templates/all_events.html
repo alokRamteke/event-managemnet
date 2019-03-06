@@ -1,0 +1,77 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+
+  <h4><a href="{% url 'my_events' %}">My Events</a></h4>
+  <h4><a href="{% url 'create_event' %}">Create new event</a></h4>
+
+<div class="row justify">
+        <h2>All Events</h2>
+        <table style="width:100%">
+          <tr>
+            <th>Title</th>
+            <th>Descriptions</th> 
+            <th>Date</th>
+            <th>Author</th> 
+            <th>Participants</th>
+            <th>Join</th>
+          </tr>
+          {% for e in context %}
+            <tr>
+                <td>{{e.event.title}}</td>
+                <td>{{e.event.description}}</td> 
+                <td>{{e.event.created_time}}</td>
+                <td>{{e.event.created_by}}</td>
+                <td>{{e.participants}}</td>
+                <td>
+                    {% if e.participants.all %}
+                      {% for participant in e.participants.all %}
+                          {% if user == participant %}
+                              <div class="btn-group">
+                      <a id="attendEventButton" href="{% url 'attend_event' e.event.id %}" class="btn btn-success btn-sm"><i class="fa fa-check-square-o"></i>Attending</a>
+                    </div>
+                          {% else %}
+                              <div class="btn-group">
+                      <a id="attendEventButton" href="{% url 'attend_event' e.event.id %}" class="btn btn-success btn-sm"><i class="fa fa-check-square-o"></i>Attend</a>
+                    </div>
+                          {% endif %}
+                      {% endfor %}
+                      {%else%}
+                      <div class="btn-group">
+                      <a id="attendEventButton" href="{% url 'attend_event' e.event.id %}" class="btn btn-success btn-sm"><i class="fa fa-check-square-o"></i>Attend</a>
+                    </div>
+                      {% endif %}
+
+                
+                </td>
+            </tr>
+          {% endfor %}
+        </table>        
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+     function JoinEvent(data_id,){
+            $.ajax({
+                type: "GET",
+                url: "/joinUser/",
+                contentType: "application/json; charset=utf-8",
+                data : {'envetId': data_id},
+                dataType: "json",
+                success: function(message) {
+                    
+                    if (message.status==200){
+                        $('#event'+data_id).text('joined')
+                    }
+                    if (message.status==400){
+                        alert('Bad request')
+                    }
+                },
+            })
+        }
+</script>
+{% endblock %}
+
