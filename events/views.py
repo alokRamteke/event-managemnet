@@ -67,8 +67,9 @@ def deleteEvent(request, pk):
 @login_required
 def myEvents(request):
 
-    events = Event.objects.filter(participants=request.user)
-    return render(request, 'myevents.html', {'event':events})
+    attending_events = Event.objects.filter(participants=request.user)
+    created_events = Event.objects.filter(created_by=request.user)
+    return render(request, 'myevents.html', {'attending_events':attending_events, 'created_events':created_events})
 
 
 def attend_event(request, pk):

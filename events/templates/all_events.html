@@ -24,23 +24,17 @@
                 <td>{{e.event.created_by}}</td>
                 <td>{{e.participants}}</td>
                 <td>
-                    {% if e.participants.all %}
-                      {% for participant in e.participants.all %}
-                          {% if user == participant %}
-                              <div class="btn-group">
+                    {% if user in e.event.participants.all %}
+                    <div class="btn-group">
                       <a id="attendEventButton" href="{% url 'attend_event' e.event.id %}" class="btn btn-success btn-sm"><i class="fa fa-check-square-o"></i>Attending</a>
                     </div>
+                      
                           {% else %}
                               <div class="btn-group">
                       <a id="attendEventButton" href="{% url 'attend_event' e.event.id %}" class="btn btn-success btn-sm"><i class="fa fa-check-square-o"></i>Attend</a>
                     </div>
                           {% endif %}
-                      {% endfor %}
-                      {%else%}
-                      <div class="btn-group">
-                      <a id="attendEventButton" href="{% url 'attend_event' e.event.id %}" class="btn btn-success btn-sm"><i class="fa fa-check-square-o"></i>Attend</a>
-                    </div>
-                      {% endif %}
+                     
 
                 
                 </td>

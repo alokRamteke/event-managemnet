@@ -6,7 +6,8 @@
   <h4><a href="{% url 'create_event' %}">Create new event</a></h4>
 
 <div class="row justify">
-    <h2>My Events</h2>
+  <div>
+    <h2>Created Events</h2>
         <table style="width:100%">
           <tr>
             <th>Title</th>
@@ -15,7 +16,7 @@
             <th>Author</th> 
             <th>Edit/Delete</th>
           </tr>
-          {% for e in event %}
+          {% for e in created_events %}
             <tr>
                 <td>{{e.title}}</td>
                 <td>{{e.description}}</td> 
@@ -27,7 +28,28 @@
                 </td>
             </tr>
           {% endfor %}
-        </table>        
+        </table>
+
+  </div>
+  <div>
+      <h2>Attending Events</h2>
+        <table style="width:100%">
+          <tr>
+            <th>Title</th>
+            <th>Descriptions</th> 
+            <th>Date</th>
+            <th>Author</th> 
+          </tr>
+          {% for e in attending_events %}
+            <tr>
+                <td>{{e.title}}</td>
+                <td>{{e.description}}</td> 
+                <td>{{e.created_time}}</td>
+                <td>{{e.created_by}}</td>
+            </tr>
+          {% endfor %}
+        </table>  
+  </div>         
 
 </div>
 
